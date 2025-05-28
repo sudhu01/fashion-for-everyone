@@ -1,4 +1,5 @@
 import random, csv, os, shutil, pandas as pd
+from data_packager import package_training_data
 
 def random_selector(dirs, weights, num_samples=50):
     selected_images = random.choices(dirs, weights=weights, k=num_samples)
@@ -39,7 +40,6 @@ with open('styles.csv', 'r') as csvfile:
         if row[0] in selected_images:
             rows_to_be_written.append([row[0], row[2], row[5], row[4]+' '+row[6]+' '+row[8], row[-1]])
 
-print(rows_to_be_written)
 
 with open('selected_styles.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
@@ -66,4 +66,4 @@ for _, row in df.iterrows():
         dataset_dict['text'].append(row['prompt'])
 
 
-print(dataset_dict)
+package_file = package_training_data(dataset_dict, 'selected_images')
